@@ -27,6 +27,6 @@ app.get('/', (req,res) => {
     
 })
 
-app.use('/', require('./routes/usuario.route'));
+app.use('/usuario', require('./routes/usuario.route'));
 
 module.exports = app; // Exportar el servidor
