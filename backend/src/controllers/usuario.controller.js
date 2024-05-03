@@ -1,51 +1,43 @@
 const conexion = require('../middlewares/query');
+//const tensorflow = require('@tensorflow/tfjs-node')
 
-const nuevo_usuario = async (req, res) => {
+const cargar_modelo = async () => {
+    const modelo = await tensorflow.loadLayersModel();
+    return modelo
+}
+
+const procesar_pregunta = async (pregunta) => {
+    // Desestructurar la pregunta por palabras clave eje. 'Asignacion' , 'Fecha', 'DPI', 'Graduacion'
+    // Obtener esa cadena de tokens esenciales
+}
+
+const similitud_preguntas = async (pregunta, modelo) => {
+    const similitud = tensorflow.dot(pregunta, modelo);
+
+    const magnitud_1 = tensorflow.norm(pregunta);
+    const magnitud_2 = tensorflow.norm(modelo);
+
+    return similitud.div(magnitud_1.mul(magnitud_2));
+}
+
+const nueva_pregunta = async (req, res) => {
     const { nombre, apellido, correo, edad, pregunta } = req.body;
-    const query = `SELECT * FROM Usuario WHERE correo = '${correo}'`;
-    const result1 = await conexion.execute(query);
-    if (result1['rows'].length > 0) {
-        // Insertar la pregunta usando el id del usuario
-        const id_usuario = result1['rows'][0]['identificador'];
-        const query = `
-        INSERT INTO Dudas (identificador_usuario, pregunta) 
-            VALUES (${id_usuario}, '${pregunta}');`
-        const result = await conexion.execute(query);
-        if (result.error) {
-            res.json({ error: result.error });
-        } else {
-            console.log(result)
-            res.json({ message: 'Pregunta creada' });
-        }
-        return;
-    }else{
-        const query1 = `
-        INSERT INTO Usuario (nombre, apellido, correo, edad) 
-            VALUES ('${nombre}', '${apellido}', '${correo}', ${edad});
-        `;
-        const result = await conexion.execute(query1);
-        console.log(result)
-        if (result.error) {
-            res.json({ error: result.error });
-        } else {
-            // Insertar la pregunta usando el id del usuario usando ResultSetHeader
-            const id_usuario = result['rows']['insertId'];
-            const query = `
-            INSERT INTO Dudas (identificador_usuario, pregunta) 
-                VALUES (${id_usuario}, '${pregunta}');`
-            const result = await conexion.execute(query);
-            if (result.error) {
-                res.json({ error: result.error });
-            } else {
-                console.log(result)
-                res.json({ message: 'Pregunta creada' });
-            }
-        
-        }      
+    
+    const query = `
+    INSERT INTO Dudas (nombre, apellido, correo, edad, pregunta) 
+        VALUES ('${nombre}', '${apellido}', '${correo}', '${edad}', '${pregunta}');`
+    
+    const result = await conexion.execute(query);
 
+    if (result.error) {
+        res.json({ error: result.error });
+    }else{
+        
+
+        res.json({ message: 'Pregunta creada' });
     }
 }
 
 module.exports = {
-    nuevo_usuario
+    nueva_pregunta
 }
