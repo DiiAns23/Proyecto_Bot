@@ -12,7 +12,7 @@ router.post('/nueva_pregunta',[
     check('pregunta','La pregunta es obligatoria').notEmpty().isString(),
     validateAtributes
     ],
-    usuarioController.nuevo_usuario
+    usuarioController.nueva_pregunta
 );
 
 module.exports = router;
