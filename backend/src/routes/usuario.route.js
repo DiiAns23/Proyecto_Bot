@@ -15,4 +15,12 @@ router.post('/nueva_pregunta',[
     usuarioController.nueva_pregunta
 );
 
+router.post('/respuesta_correcta',[
+    check('pregunta', 'La pregunta es obligatoria').notEmpty().isNumeric(),
+    check('respuesta', 'La respuesta es obligatoria').notEmpty().isString(),
+    check('satisfactoria', 'La satisfaccion es obligatoria').notEmpty(),
+    validateAtributes]
+
+)
+
 module.exports = router;
