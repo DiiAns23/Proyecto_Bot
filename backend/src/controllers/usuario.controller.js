@@ -1,4 +1,5 @@
 const conexion = require('../middlewares/query');
+const enviarCorreo = require('../middlewares/mailer')
 //const tensorflow = require('@tensorflow/tfjs-node')
 
 const cargar_modelo = async () => {
@@ -32,9 +33,43 @@ const nueva_pregunta = async (req, res) => {
     if (result.error) {
         res.json({ error: result.error });
     }else{
-        
+        const mensaje = `
+        <h1>DEPARTAMENTO DE MATEMATICA USAC</h1>
 
+        <p>Hola ${nombre}, agradecemos que te comuniques con nosotros, tu pregunta
+        estara siendo procesada y se dara solucion lo mas rapido posible.
+        </p>
+
+        <br>
+
+        <p>Pregunta creada: ${pregunta}</p>
+
+        PAP - 2024
+        ADIOS
+        `
+        await enviarCorreo(correo, 'Duda del PAP', mensaje);
         res.json({ message: 'Pregunta creada' });
+    }
+}
+
+const respuesta = async (req, res) => {
+    const { pregunta, respuesta, satisfactoria } = req.body;
+
+    if(satisfactoria){
+        const query = `
+        INSERT INTO Respuestas (pregunta, respuesta) 
+            VALUES ('${pregunta}', '${respuesta}');`
+        
+        const result = await conexion.execute(query);
+        if (result.error) {
+            res.json({ error: result.error });
+        }else{
+            res.json({ message: 'La respuesta fue satisfactoria' });
+        }
+        console.log('La respuesta fue satisfactoria');
+    }else{
+        console.log('La respuesta no fue satisfactoria');
+        //Envio de los datos por correo
     }
 }
 
