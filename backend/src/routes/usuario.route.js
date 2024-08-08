@@ -16,11 +16,13 @@ router.post('/nueva_pregunta',[
 );
 
 router.post('/respuesta_correcta',[
-    check('pregunta', 'La pregunta es obligatoria').notEmpty().isNumeric(),
+    check('id_duda', 'El id de la duda es obligatorio').notEmpty().isNumeric(),
     check('respuesta', 'La respuesta es obligatoria').notEmpty().isString(),
     check('satisfactoria', 'La satisfaccion es obligatoria').notEmpty(),
-    validateAtributes]
-
+    validateAtributes],
+    usuarioController.respuesta_correcta
 )
+
+router.get('/dudas', usuarioController.dudas);
 
 module.exports = router;
