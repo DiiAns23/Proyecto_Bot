@@ -1,5 +1,5 @@
 const conexion = require('../middlewares/query');
-const enviarCorreo = require('../middlewares/mailer')
+//const enviarCorreo = require('../middlewares/mailer')
 const similitud = require('string-similarity');
 
 
@@ -11,6 +11,7 @@ const nueva_pregunta = async (req, res) => {
         VALUES ('${nombre}', '${apellido}', '${correo}', '${edad}', '${pregunta}');`
         
     const result = await conexion.execute(query);
+    console.log(result)
     if (result.error) {
         res.json({ error: result.error });
     }else{
@@ -24,6 +25,7 @@ const nueva_pregunta = async (req, res) => {
             const respuesta = mejorPregunta.respuesta;
             console.log('Esta es la respuesta sugerida:')
             console.log(respuesta)
+            result.respuesta = respuesta;
         }
 
         // const mensaje = `
@@ -42,10 +44,47 @@ const nueva_pregunta = async (req, res) => {
         // `
         //await enviarCorreo(correo, 'Duda del PAP', mensaje);
 
-        res.json({ message: 'Pregunta creada' });
+        res.json({ respuesta: result.respuesta, id_duda: result.rows.insertId });
+    }
+}
+
+const respuesta_correcta = async (req, res) => {
+    const { id_duda, respuesta, satisfactoria } = req.body;
+    const query = `
+    UPDATE Dudas SET respuesta = '${respuesta}', correcta = ${satisfactoria}
+        WHERE id = ${id_duda};`
+    const result = await conexion.execute(query);
+    if (result.error) {
+        res.json({ error: result.error });
+    }else{
+        if(satisfactoria===1){
+            const query2 = `
+            INSERT INTO Respuestas (pregunta, respuesta)
+                SELECT pregunta, '${respuesta}' FROM Dudas WHERE id = ${id_duda};`
+            const result2 = await conexion.execute(query2);
+            if (result2.error) {
+                res.json({ error: result2.error });
+            }else{
+                res.json({ message: 'Respuesta finalizada' });
+            }
+        }else{
+            res.json({ message: 'Respuesta finalizada' });
+        }
+    }
+}
+
+const dudas = async (req, res) => {
+    const query = `SELECT * FROM Dudas WHERE correcta = 0;`
+    const result = await conexion.execute(query);
+    if (result.error) {
+        res.json({ error: result.error });
+    }else{
+        res.json({ dudas: result.rows });
     }
 }
 
 module.exports = {
-    nueva_pregunta
+    nueva_pregunta,
+    respuesta_correcta,
+    dudas
 }

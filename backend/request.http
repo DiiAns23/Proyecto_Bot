@@ -7,5 +7,29 @@ Content-Type: application/json
     "apellido": "Canté",
     "correo": "s.cante.2ddb@gmcil.com",
     "edad": "17",
-    "pregunta": "¿para que sirve el pap?"
+    "pregunta": "¿es de forma hibrida?"
+}
+
+### POST
+POST http://localhost:8080/usuario/respuesta_correcta HTTP/1.1
+Content-Type: application/json
+
+{
+    "id_duda": 12,
+    "respuesta": "No es satisfactoria",
+    "satisfactoria": 0
+}
+
+### GET
+GET http://localhost:8080/usuario/dudas HTTP/1.1
+
+
+### POST - este endpoint nos va a actualizar la respuesta manual
+POST http://localhost:8080/usuario/respuesta_correcta HTTP/1.1
+Content-Type: application/json
+
+{
+    "id_duda": 10,
+    "respuesta": "Para mayor informacin puede ingresar a la pgina: https://www.usac.edu.gt/pap/ingenieria",
+    "satisfactoria": 1
 }
