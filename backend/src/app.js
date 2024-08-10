@@ -13,9 +13,10 @@ nombre = 'Luisa'; // Error
 */
 const express = require('express'); // Sirve para crear el servidor
 const app = express(); // Crear el servidor
+const cors = require('cors'); // Permite que el servidor acepte peticiones de otros servidores
 
 app.use(express.json()); // Entender los datos que vienen en formato JSON
-
+app.use(cors()); // Permite que el servidor acepte peticiones de otros servidores
 // Configuraciones
 
 app.get('/', (req,res) => {
