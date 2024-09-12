@@ -16,4 +16,14 @@ export class UsuarioService {
     const ruta = 'http://localhost:8080/usuario/nueva_pregunta';
     return this.http.post(ruta, formulario, { headers: { 'Content-Type': 'application/json' } });
   }
+
+  respuesta_correcta(formulario:any){
+    const ruta = 'http://localhost:8080/usuario/respuesta_correcta';
+    return this.http.post(ruta, formulario, { headers: { 'Content-Type': 'application/json' } });
+  }
+
+  dudas(){
+    const ruta = 'http://localhost:8080/usuario/dudas';
+    return this.http.get(ruta, { headers: { 'Content-Type': 'application/json' } });
+  }
 }
