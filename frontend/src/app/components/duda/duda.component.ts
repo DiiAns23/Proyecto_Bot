@@ -37,7 +37,7 @@ export class DudaComponent {
     satisfactoria: new FormControl('', [Validators.required]),
   })
 
-  enviar_duda(){
+  async enviar_duda(){
     if(this.form_duda.invalid){
       Swal.fire({
         title: "Error",
@@ -48,18 +48,28 @@ export class DudaComponent {
       });
       return;
     }
-    this.usuarioService.enviar_duda(this.form_duda.value).subscribe({
+
+    let respuesta = '';
+    await this.usuarioService.enviar_duda(this.form_duda.value).subscribe({
       next: (data:any) => {
-        const respuesta = data.respuesta;
-        Swal.fire({
-          title: "Respuesta",
-          text: `${respuesta}`,
-          icon: "success",
-          confirmButtonText: "Aceptar",
-          confirmButtonColor: "#004080",
-          allowOutsideClick: false,
-          allowEscapeKey: false
-        });
+        this.form_respuesta.get('id_duda')?.setValue(data.id_duda);
+        this.form_respuesta.get('respuesta')?.setValue(data.respuesta);
+        respuesta = data.respuesta;
+        if(respuesta.includes('No se encontró')){
+          Swal.fire({
+            title: "Respuesta",
+            text: `${respuesta}`,
+            icon: "success",
+            confirmButtonText: "Aceptar",
+            confirmButtonColor: "#004080",
+            allowOutsideClick: false,
+            allowEscapeKey: false
+          }).then(() => {
+            window.location.reload();
+          });
+        }else{
+          this.get_respuesta(respuesta);
+        }
       },
       error: (error) => {
         Swal.fire({
@@ -71,5 +81,60 @@ export class DudaComponent {
         });
       }
     })
+  }
+
+  async get_respuesta(respuesta:any){
+    const {value: select} = await Swal.fire({
+      title: "Respuesta",
+      text: `${respuesta}`,
+      icon: "success",
+      confirmButtonText: "Aceptar",
+      confirmButtonColor: "#004080",
+      input: "select",
+      inputOptions: {
+        Si: 'Si',
+        No: 'No'
+      },
+      inputPlaceholder: "¿La respuesta fue satisfactoria?",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      inputValidator: (value) => {
+        return new Promise((resolve) => {
+          debugger;
+          if (value === "No") {
+            this.form_respuesta.get('satisfactoria')?.setValue('0');
+            this.usuarioService.respuesta_correcta(this.form_respuesta.value).subscribe({});
+            resolve();
+          } else if(value === "Si"){
+            this.form_respuesta.get('satisfactoria')?.setValue('1');
+            this.usuarioService.respuesta_correcta(this.form_respuesta.value).subscribe({});
+            resolve();
+          }else{
+            resolve("Por favor, selecciona una opción");
+          }
+        });
+      }
+    });
+    if(select === 'No'){
+      Swal.fire({
+        title: "Respuesta",
+        text: `Gracias por enviar tu duda, te responderemos lo más pronto posible por correo electrónico.`,
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#004080",
+      }).then(() => {
+        window.location.reload();
+      });
+    }else if(select === 'Si'){
+      Swal.fire({
+        title: "Respuesta",
+        text: `Gracias por tu respuesta.`,
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#004080",
+      }).then(() => {
+        window.location.reload();
+      });
+    }
   }
 }

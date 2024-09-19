@@ -1,1 +1,114 @@
-<p>respuesta works!</p>
+<!-- ======= Header ======= -->
+<header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+        <a href="respuesta" class="logo d-flex align-items-center">
+            <img src="assets/img/logo.png" alt="">
+            <span class="d-none d-lg-block">Portal PAP</span>
+        </a>
+        <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+
+    <nav class="header-nav ms-auto">
+        <ul class="d-flex align-items-center">
+
+            <li class="nav-item dropdown pe-3">
+
+                <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                    <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+                    <span class="d-none d-md-block dropdown-toggle ps-2">Portal Pap</span>
+                </a><!-- End Profile Iamge Icon -->
+
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                    <li class="dropdown-header">
+                        <h6>Portal Pap</h6>
+                        <span>PAP</span>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="login">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span>Salir</span>
+                        </a>
+                    </li>
+
+                </ul><!-- End Profile Dropdown Items -->
+            </li><!-- End Profile Nav -->
+
+        </ul>
+    </nav><!-- End Icons Navigation -->
+
+</header><!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+        <li class="nav-item">
+            <a [routerLink]="['/respuesta']" routerLinkActive="active"  class="nav-link">
+                <i class="bi bi-envelope-open"></i>
+                <span>Sin responder</span>
+            </a>
+            <a [routerLink]="['/resueltas']" routerLinkActive="active" class="nav-link collapsed">
+                <i class="bi bi-envelope"></i>
+                <span>Resueltas</span>
+            </a>
+        </li><!-- End Dashboard Nav -->
+    </ul>
+
+</aside><!-- End Sidebar-->
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Preguntas</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Sin responder</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- End Page Title -->
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card overflow-auto">
+                    <div class="card-body">
+                        <h5 class="card-title">Listado de preguntas</h5>
+
+                        <!-- <div *ngIf="mostrar==false" class="row">
+                            <div class="col spinner-center">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <!-- Table with stripped rows -->
+                        <table #dataTable id="table-dudas" class="table table-striped table-borderless"></table>
+                        <!-- End Table with stripped rows -->
+                        <!-- <button *ngIf="mostrar==true" type="button" class="btn btn-primary" (click)="exportarCSV()">Exportar</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+    <div class="copyright">
+        &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
+</footer><!-- End Footer -->
