@@ -1,0 +1,34 @@
+version: '3.1'
+
+services:
+  master:
+    image: mysql:8.0
+    container_name: mysql_master
+    environment:
+      MYSQL_ROOT_PASSWORD: D13g0.C0nr3d.
+      MYSQL_DATABASE: GESTION_DOCUMENTAL
+      MYSQL_USER: diians
+      MYSQL_PASSWORD: DiiAns2302.
+      TZ: America/Mexico_City
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./master-data:/var/lib/mysql
+      - ./master-config:/etc/mysql/conf.d
+
+  slave:
+    image: mysql:8.0
+    container_name: mysql_slave
+    environment:
+      MYSQL_ROOT_PASSWORD: D13g0.C0nr3d.
+      MYSQL_DATABASE: GESTION_DOCUMENTAL
+      MYSQL_USER: diians
+      MYSQL_PASSWORD: DiiAns2302.
+      TZ: America/Mexico_City
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./slave-data:/var/lib/mysql
+      - ./slave-config:/etc/mysql/conf.d
+    depends_on:
+      - master

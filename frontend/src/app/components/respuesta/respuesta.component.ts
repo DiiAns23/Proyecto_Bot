@@ -9,6 +9,7 @@ import {
 
 import { RouterModule } from '@angular/router';
 import { UsuarioService } from '../../services/usuario/usuario.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-respuesta',
@@ -49,12 +50,12 @@ export class RespuestaComponent implements OnInit {
               Pregunta: duda.pregunta,
             };
           });
+          this.columnas = Object.keys(this.listado_dudas[0]);
+          if (this.table && this.table.nativeElement) {
+            this.iniciar_tabla();
+          }
         }
 
-        this.columnas = Object.keys(this.listado_dudas[0]);
-        if (this.table && this.table.nativeElement) {
-          this.iniciar_tabla();
-        }
       },
       error: (error) => {
         console.log(error);
