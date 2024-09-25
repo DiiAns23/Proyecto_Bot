@@ -1,0 +1,17 @@
+version: '3.1'
+
+services:
+  database:
+    image: mysql:8.0
+    container_name: mysql_master
+    environment:
+      MYSQL_ROOT_PASSWORD: Pr0y3ct0.Bot.
+      MYSQL_DATABASE: PROYECTO_BOT
+      MYSQL_USER: diians
+      MYSQL_PASSWORD: DiiAns2302.
+      TZ: America/Mexico_City
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./master-data:/var/lib/mysql
+      - ./master-config:/etc/mysql/conf.d
