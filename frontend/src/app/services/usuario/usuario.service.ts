@@ -13,17 +13,17 @@ export class UsuarioService {
   router = inject(Router);
 
   enviar_duda(formulario:any){
-    const ruta = 'http://35.153.31.42:8080/usuario/nueva_pregunta';
+    const ruta = 'http://backend:8080/usuario/nueva_pregunta';
     return this.http.post(ruta, formulario, { headers: { 'Content-Type': 'application/json' } });
   }
 
   respuesta_correcta(formulario:any){
-    const ruta = 'http://35.153.31.42:8080/usuario/respuesta_correcta';
+    const ruta = 'http://backend:8080/usuario/respuesta_correcta';
     return this.http.post(ruta, formulario, { headers: { 'Content-Type': 'application/json' } });
   }
 
   dudas(){
-    const ruta = 'http://35.153.31.42:8080/usuario/dudas';
+    const ruta = 'http://backend:8080/usuario/dudas';
     return this.http.get(ruta, { headers: { 'Content-Type': 'application/json' } });
   }
 }
