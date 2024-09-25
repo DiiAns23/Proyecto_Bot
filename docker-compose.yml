@@ -1,0 +1,52 @@
+version: '3.1'
+
+services:
+  database:
+    image: mysql:8.0
+    container_name: database
+    hostname: database
+    environment:
+      MYSQL_ROOT_PASSWORD: Pr0y3ct0.Bot.
+      MYSQL_DATABASE: PROYECTO_BOT
+      MYSQL_USER: diians
+      MYSQL_PASSWORD: DiiAns2302.
+      TZ: America/Mexico_City
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./master-data:/var/lib/mysql
+      - ./master-config:/etc/mysql/conf.d
+    networks:
+      - proyecto_bot
+
+  backend:
+    build: ./backend
+    env_file:
+      - ./backend/.env
+    container_name: backend
+    hostname: backend
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - proyecto_bot
+    depends_on:
+      - database
+  
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    hostname: frontend
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - ./frontend/dist/frontend/browser:/var/www/html
+    networks:
+      - proyecto_bot
+    depends_on:
+      - backend
+
+networks:
+  proyecto_bot:
+    driver: bridge
