@@ -13,17 +13,17 @@ export class UsuarioService {
   router = inject(Router);
 
   enviar_duda(formulario:any){
-    const ruta = 'http://localhost:8080/usuario/nueva_pregunta';
+    const ruta = 'https://pap.fixsolutionss.com/api/usuario/nueva_pregunta';
     return this.http.post(ruta, formulario, { headers: { 'Content-Type': 'application/json' } });
   }
 
   respuesta_correcta(formulario:any){
-    const ruta = 'http://localhost:8080/usuario/respuesta_correcta';
+    const ruta = 'https://pap.fixsolutionss.com/api//usuario/respuesta_correcta';
     return this.http.post(ruta, formulario, { headers: { 'Content-Type': 'application/json' } });
   }
 
   dudas(){
-    const ruta = 'http://localhost:8080/usuario/dudas';
+    const ruta = 'https://pap.fixsolutionss.com/api/usuario/dudas';
     return this.http.get(ruta, { headers: { 'Content-Type': 'application/json' } });
   }
 }
